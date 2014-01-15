@@ -1,0 +1,47 @@
+@font-face {
+    font-family: 'kiosk_black';
+    src: url('kioskheroltstd-black-webfont.eot');
+    src: url('kioskheroltstd-black-webfont.eot?#iefix') format('embedded-opentype'),
+         url('kioskheroltstd-black-webfont.woff') format('woff'),
+         url('kioskheroltstd-black-webfont.ttf') format('truetype'),
+         url('kioskheroltstd-black-webfont.svg#kioskhero_lt_std95_black') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'kiosk_book';
+    src: url('kioskheroltstd-book-webfont.eot');
+    src: url('kioskheroltstd-book-webfont.eot?#iefix') format('embedded-opentype'),
+         url('kioskheroltstd-book-webfont.woff') format('woff'),
+         url('kioskheroltstd-book-webfont.ttf') format('truetype'),
+         url('kioskheroltstd-book-webfont.svg#kioskhero_lt_std45_book') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'kiosk_light';
+    src: url('kioskheroltstd-light-webfont.eot');
+    src: url('kioskheroltstd-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('kioskheroltstd-light-webfont.woff') format('woff'),
+         url('kioskheroltstd-light-webfont.ttf') format('truetype'),
+         url('kioskheroltstd-light-webfont.svg#kioskhero_lt_std35_light') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'kiosk_lightoblique';
+    src: url('kioskheroltstd-lightoblique-webfont.eot');
+    src: url('kioskheroltstd-lightoblique-webfont.eot?#iefix') format('embedded-opentype'),
+         url('kioskheroltstd-lightoblique-webfont.woff') format('woff'),
+         url('kioskheroltstd-lightoblique-webfont.ttf') format('truetype'),
+         url('kioskheroltstd-lightoblique-webfont.svg#kioskhero_lt_std35LtOb') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
