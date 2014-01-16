@@ -6,7 +6,7 @@
 define ['view/AppView'], (AppView) ->
 	class AppController
 		init: () ->
-			# @appView = new AppView()
+			@appView = new AppView()
 
 			$(window).resize(@resize);
 			@resize();

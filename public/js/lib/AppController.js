@@ -16,6 +16,7 @@
       }
 
       AppController.prototype.init = function() {
+        this.appView = new AppView();
         $(window).resize(this.resize);
         return this.resize();
       };

@@ -6,6 +6,14 @@
 
 
 (function() {
+  require.config({
+    paths: {
+      jquery: '../vendor/jquery.min',
+      text: '../vendor/text',
+      hogan: '../vendor/hogan-2.0.0.amd'
+    }
+  });
+
   requirejs(['Resources', 'AppController', 'ServiceManager'], function(Resources, AppController, ServiceManager) {
     AppController.init();
     return ServiceManager.connect(function() {});

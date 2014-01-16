@@ -72,6 +72,10 @@ html, body {
 	background-color: #000; 
 }
 
+#output {
+	-webkit-transform-style: preserve-3d;
+}
+
 #canvas {
 	position: absolute;
 	top: 0px;
@@ -90,10 +94,10 @@ html, body {
 }
 
 #remoteVideos {
-	height: 30%;
+	/*height: 30%;
 	position: absolute;
 	bottom: 0px;
-	-webkit-transform-style: preserve-3d;
+	-webkit-transform-style: preserve-3d;*/
 }
 
 #remoteVideos video{
@@ -102,27 +106,59 @@ html, body {
 
 #header {
 	width: 100%;
-	text-shadow: 1px 0px 3px #000000;
+	text-shadow: 1px 1px 3px #000;
 	-webkit-transform-style: preserve-3d;
+	position: absolute;
+	top:0px;
+	left: 0px;
 }
 
 #header h1 {
-	font: 35px "kiosk_black";
+	font: 20px "kiosk_black";
 	color: #ffffff;
 	letter-spacing: 2px;
-
 	position: absolute;
-	top: 35px;
-	left: 40px;
+	top: 20px;
+	left: 20px;
+}
+
+#alertHolder {
+	position: absolute;
+	right: 20px;
+	bottom: 20px;
 }
 
 #locale {
-	font: 40px "kiosk_light";
+	font: 20px "kiosk_light";
 	color: #ffffff;
 	letter-spacing: 2px;
 	text-align: right;
 
 	position: absolute;
-	top: 35px;
-	right: 200px;
+	top: 20px;
+	right: 20px;
+}
+
+.gridItem {
+	float: left;
+	/*border: 1px solid #000;
+	box-sizing: border-box;*/
+}
+
+.color1 { background: #cc3434; }
+.color2 { background: #f79838; }
+.color3 { background: #6858a5; }
+.color4 { background: #71c8f0; }
+.color5 { background: #ed3a68; }
+.color6 { background: #659941; }
+.color7 { background: #005387; }
+
+.clearfix:before,
+.clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.clearfix:after {
+    clear: both;
 }

@@ -24,11 +24,7 @@
         }
       };
 
-      VideoController.prototype.videoSuccess = function(stream) {
-        this.mainVideo = document.getElementById('mainVideo');
-        this.mainVideo.src = window.webkitURL.createObjectURL(stream);
-        return this.remoteVideos.push(this.mainVideo);
-      };
+      VideoController.prototype.videoSuccess = function(stream) {};
 
       VideoController.prototype.videoError = function() {};
 

@@ -3,11 +3,13 @@
  Loads all dependencies and Starts Application
 ###
 
-# require.config({
-#     paths: {
-#         jquery: '../vendor/jquery.min'
-#     }
-# });
+require.config({
+    paths: {
+        jquery: '../vendor/jquery.min',
+        text:'../vendor/text',
+        hogan: '../vendor/hogan-2.0.0.amd'
+    }
+});
 
 requirejs ['Resources', 'AppController', 'ServiceManager'], (Resources, AppController, ServiceManager) ->
 	# Resources.load ->
@@ -15,6 +17,15 @@ requirejs ['Resources', 'AppController', 'ServiceManager'], (Resources, AppContr
 		AppController.init()
 		# Connect to Socket IO Server
 		ServiceManager.connect ->
+
+		# data = 
+		# 	message: 'STUFF'
+		# 	color: 'color1'
+		# console.log(Hogan);
+		# videoboxCompiled = Hogan.compile(template)
+		# console.log(videoboxCompiled)
+		# $('#output').html(videoboxCompiled.render(data))
+
 
 
 	# Disconnect on refresh / close
