@@ -24,19 +24,20 @@
         }
       };
 
-      VideoController.prototype.videoSuccess = function(stream) {};
+      VideoController.prototype.videoSuccess = function(stream) {
+        return this.addRemoteStream(stream, "main");
+      };
 
       VideoController.prototype.videoError = function() {};
 
       VideoController.prototype.addRemoteStream = function(stream, id) {
         var video;
         video = document.createElement('video');
-        square.appendChild(video);
         video.id = 'remote' + id;
         rtc.attachStream(stream, video);
         video.play();
         this.remoteVideos.push(video);
-        document.getElementById('remoteVideos').appendChild(video);
+        this.appView.addVideo(video);
         return video;
       };
 
@@ -52,8 +53,8 @@
         var video;
         video = document.getElementById('remote' + id);
         if (video) {
-          this.remoteVideos.splice(this.remoteVideos.indexOf(video), 1);
-          return video.parentNode.removeChild(video);
+          this.appView.removeVideo(video);
+          return this.remoteVideos.splice(this.remoteVideos.indexOf(video), 1);
         }
       };
 

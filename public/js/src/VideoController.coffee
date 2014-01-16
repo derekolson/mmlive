@@ -15,27 +15,23 @@ define ['AppController'], (AppController) ->
 
 		videoSuccess: (stream) =>
 			# Set Background Video to Client Video Stream
-			# @mainVideo = document.getElementById('mainVideo')
-			# @mainVideo.src = window.webkitURL.createObjectURL(stream)
-			# @remoteVideos.push(@mainVideo)
+			@addRemoteStream(stream, "main")
 
 		videoError: ->
 			#Stubbed in / not implemented
 
 		addRemoteStream: (stream, id) ->
 
-			# frag = document.createDocumentFragment()
-			# video = frag.appendChild(document.createElement('video'))
-			# 
 			video = document.createElement('video')
-			square.appendChild(video)
 
 			video.id = 'remote' + id
 			rtc.attachStream(stream, video)
 			video.play()
 			
 			@remoteVideos.push(video)
-			document.getElementById('remoteVideos').appendChild(video)
+			# document.getElementById('remoteVideos').appendChild(video)
+			# 
+			@appView.addVideo(video);
 			return video
 
 		#Clone DOM video object
@@ -49,7 +45,8 @@ define ['AppController'], (AppController) ->
 		removeVideo: (id) ->
 			video = document.getElementById('remote' + id)
 			if(video)
+				@appView.removeVideo(video)
 				@remoteVideos.splice(@remoteVideos.indexOf(video), 1)
-				video.parentNode.removeChild(video)
+				
 
 	return new VideoController()

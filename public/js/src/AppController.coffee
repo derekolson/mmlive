@@ -3,10 +3,12 @@
  This is heavily unfinished..
 ###
 
-define ['view/AppView'], (AppView) ->
+define ['view/AppView', 'VideoController'], (AppView, VideoController) ->
 	class AppController
 		init: () ->
 			@appView = new AppView()
+
+			VideoController.appView = @appView;
 
 			$(window).resize(@resize);
 			@resize();

@@ -10,7 +10,7 @@
     var AppView;
     return AppView = (function() {
       function AppView(canvasId) {
-        var alertboxCompiled, colorCount, colors, data, i, numSquares, numSquaresVert, screenHeight, screenWidth, square, squareHeight, squareWidth, squares, _i;
+        var alertboxCompiled, colorCount, colors, data, i, numSquares, numSquaresVert, screenHeight, screenWidth, square, squareHeight, squareWidth, _i, _ref;
         if (canvasId == null) {
           canvasId = "canvas";
         }
@@ -21,7 +21,7 @@
         alertboxCompiled = Hogan.compile(template);
         $('#alertHolder').html(alertboxCompiled.render(data));
         colors = ['color1', 'color2', 'color3', 'color4', 'color5', 'color6', 'color7'];
-        squares = [];
+        this.squares = [];
         screenWidth = $(window).width();
         screenHeight = $(window).height();
         squareWidth = squareHeight = screenWidth / 4;
@@ -33,7 +33,7 @@
         console.log(squareWidth);
         console.log(numSquaresVert);
         console.log(numSquares);
-        for (i = _i = 0; 0 <= numSquares ? _i <= numSquares : _i >= numSquares; i = 0 <= numSquares ? ++_i : --_i) {
+        for (i = _i = 0, _ref = numSquares - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
           square = $('<div></div>');
           square.addClass('gridItem' + ' ' + colors[colorCount]);
           square.css({
@@ -45,11 +45,24 @@
           if (colorCount > colors.length - 1) {
             colorCount = 0;
           }
-          squares.push(square);
+          this.squares.push(square);
         }
       }
 
-      AppView.prototype.update = function() {};
+      AppView.prototype.addVideo = function(video) {
+        var index, square;
+        index = Math.floor(Math.random() * this.squares.length);
+        square = this.squares[index];
+        this.squares.slice(index, 1);
+        return square.append($(video));
+      };
+
+      AppView.prototype.removeVideo = function(video) {
+        var square;
+        square = $(video.parentNode);
+        video.parentNode.removeChild(video);
+        return this.squares.push(square);
+      };
 
       AppView.prototype.resize = function(w, h) {};
 

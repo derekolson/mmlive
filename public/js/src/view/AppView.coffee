@@ -14,7 +14,7 @@ define ['jquery', 'hogan', 'text!../../templates/alertbox.html'], ($, Hogan, tem
 			$('#alertHolder').html(alertboxCompiled.render(data))
 
 			colors = ['color1', 'color2', 'color3', 'color4', 'color5', 'color6', 'color7']
-			squares = []
+			@squares = []
 
 			screenWidth = $(window).width()
 			screenHeight = $(window).height()
@@ -29,7 +29,7 @@ define ['jquery', 'hogan', 'text!../../templates/alertbox.html'], ($, Hogan, tem
 			console.log(numSquaresVert)
 			console.log(numSquares)
 
-			for i in [0..numSquares]
+			for i in [0..numSquares-1]
 				square = $('<div></div>')
 				square.addClass('gridItem' + ' ' + colors[colorCount])
 				square.css({width: squareWidth, height: squareHeight})
@@ -37,8 +37,20 @@ define ['jquery', 'hogan', 'text!../../templates/alertbox.html'], ($, Hogan, tem
 				# cycle thru colors
 				++colorCount
 				colorCount = 0 if colorCount > colors.length-1
-				squares.push(square)
+				@squares.push(square)
 
-		update: ->
+
+		addVideo: (video) ->
+			index = Math.floor(Math.random() * @squares.length)
+			square = @squares[index]
+			@squares.slice(index, 1);
+
+			square.append($(video));
+
+		removeVideo: (video) ->
+			square = $(video.parentNode)
+			video.parentNode.removeChild(video)
+			@squares.push(square)
+
 
 		resize: (w, h) ->

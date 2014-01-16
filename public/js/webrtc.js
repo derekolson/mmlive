@@ -93,6 +93,7 @@ if (navigator.webkitGetUserMedia) {
 
   // Array of known peer socket ids
   rtc.connections = [];
+  rtc.locations = {};
   // Stream-related variables.
   rtc.streams = [];
   rtc.numStreams = 0;
@@ -159,6 +160,9 @@ if (navigator.webkitGetUserMedia) {
 
       rtc._socket.on('get_peers', function(data) {
         rtc.connections = data.connections;
+        rtc.locations = data.locations;
+        console.log(data.locations);
+        console.log(rtc.locations);
         rtc._me = data.you;
         if (rtc.offerSent) { // 'ready' was fired before 'get_peers'
           rtc.createPeerConnections();
@@ -178,6 +182,7 @@ if (navigator.webkitGetUserMedia) {
 
       rtc._socket.on('new_peer_connected', function(data) {
         var id = data.socketId;
+        rtc.locations[id] = data.location;
         rtc.connections.push(id);
         delete rtc.offerSent;
 

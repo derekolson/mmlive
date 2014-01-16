@@ -102,6 +102,7 @@ html, body {
 
 #remoteVideos video{
 	height: 100%;
+	margin-left: -25%;
 }
 
 #header {
@@ -143,6 +144,7 @@ html, body {
 	float: left;
 	/*border: 1px solid #000;
 	box-sizing: border-box;*/
+	overflow: hidden;
 }
 
 .color1 { background: #cc3434; }

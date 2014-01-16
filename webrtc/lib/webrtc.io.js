@@ -91,7 +91,7 @@ function attachEvents(manager) {
     iolog('join_room');
 
     var connectionsId = [];
-    var locations = [];
+    var locations = {};
     var roomList = rtc.rooms[data.room] || [];
     socket.location = data.location;
 
@@ -106,7 +106,8 @@ function attachEvents(manager) {
         var soc = rtc.getSocket(id);
         connectionsId.push(id);
         locations[id] = soc.location;
-        console.log('id: ' +  id + ' location: ' + soc.location)
+
+        console.log('id: ' +  id + 'location: ' + soc.location)
 
         // inform the peers that they have a new peer
         if (soc) {

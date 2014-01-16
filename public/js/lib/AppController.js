@@ -8,7 +8,7 @@
 (function() {
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-  define(['view/AppView'], function(AppView) {
+  define(['view/AppView', 'VideoController'], function(AppView, VideoController) {
     var AppController;
     AppController = (function() {
       function AppController() {
@@ -17,6 +17,7 @@
 
       AppController.prototype.init = function() {
         this.appView = new AppView();
+        VideoController.appView = this.appView;
         $(window).resize(this.resize);
         return this.resize();
       };
