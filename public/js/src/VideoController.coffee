@@ -23,18 +23,26 @@ define ['AppController'], (AppController) ->
 			#Stubbed in / not implemented
 
 		addRemoteStream: (stream, id) ->
-			clone = @cloneVideo('mainVideo', id)
-			clone.setAttribute('class', '')
-			rtc.attachStream(stream, clone.id)
-			@remoteVideos.push(clone)
-			return clone
+
+			# frag = document.createDocumentFragment()
+			# video = frag.appendChild(document.createElement('video'))
+			# 
+			video = document.createElement('video')
+			square.appendChild(video)
+
+			video.id = 'remote' + id
+			rtc.attachStream(stream, video)
+			video.play()
+			
+			@remoteVideos.push(video)
+			document.getElementById('remoteVideos').appendChild(video)
+			return video
 
 		#Clone DOM video object
 		cloneVideo: (domId, id) ->
 			video = document.getElementById(domId)
 			clone = video.cloneNode(false)
 			clone.id = 'remote' + id
-			document.getElementById('remoteVideos').appendChild(clone)
 			return clone
 		
 		#Remove DOM video object

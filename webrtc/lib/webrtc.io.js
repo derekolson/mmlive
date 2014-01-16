@@ -80,38 +80,6 @@ function attachEvents(manager) {
     socket.on('disconnect', function() {
       rtc.fire('disconnect', socket);
     });
-
-    // socket.on('disconnect', function() {
-    //   iolog('close');
-
-    //   // find socket to remove
-    //   var i = rtc.sockets.indexOf(socket);
-    //   // remove socket
-    //   rtc.sockets.splice(i, 1);
-
-    //   // remove from rooms and send remove_peer_connected to all sockets in room
-    //   var room;
-    //   for (var key in rtc.rooms) {
-
-    //     room = rtc.rooms[key];
-    //     var exist = room.indexOf(socket.id);
-
-    //     if (exist !== -1) {
-    //       room.splice(room.indexOf(socket.id), 1);
-    //       for (var j = 0; j < room.length; j++) {
-    //         console.log(room[j]);
-    //         var soc = rtc.getSocket(room[j]);
-    //         soc.emit('remove_peer_connected', { socketId: socket.id });
-    //       }
-    //       break;
-    //     }
-    //   }
-    //   // we are leaved the room so lets notify about that
-    //   rtc.fire('room_leave', room, socket.id);
-      
-    //   // call the disconnect callback
-    //   rtc.fire('disconnect', rtc);
-    // });
     
     // call the connect callback
     rtc.fire('connect', rtc);
@@ -123,7 +91,9 @@ function attachEvents(manager) {
     iolog('join_room');
 
     var connectionsId = [];
+    var locations = [];
     var roomList = rtc.rooms[data.room] || [];
+    socket.location = data.location;
 
     roomList.push(socket.id);
     rtc.rooms[data.room] = roomList;
@@ -132,21 +102,20 @@ function attachEvents(manager) {
     for (var i = 0; i < roomList.length; i++) {
       var id = roomList[i];
 
-      if (id == socket.id) {
-        continue;
-      } else {
-
-        connectionsId.push(id);
+      if (id != socket.id) {
         var soc = rtc.getSocket(id);
+        connectionsId.push(id);
+        locations[id] = soc.location;
+        console.log('id: ' +  id + ' location: ' + soc.location)
 
         // inform the peers that they have a new peer
         if (soc) {
-          soc.emit('new_peer_connected', {socketId: socket.id});
+          soc.emit('new_peer_connected', {socketId: socket.id, location: socket.location});
         }
       }
     }
     // send new peer a list of all prior peers
-    socket.emit('get_peers', { connections: connectionsId, you: socket.id });
+    socket.emit('get_peers', { connections: connectionsId, locations: locations, you: socket.id });
   });
 
   //Receive ICE candidates and send to the correct socket

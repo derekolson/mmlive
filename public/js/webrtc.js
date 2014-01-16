@@ -139,38 +139,13 @@ if (navigator.webkitGetUserMedia) {
   /**
    * Connects to the websocket server.
    */
-  rtc.connect = function(socket, room) {
+  rtc.connect = function(socket, room, location) {
     room = room || ""; // by default, join a room called the blank string
     rtc._socket = socket
 
     rtc._socket.on('connect', function() {
       
-      rtc._socket.emit('join_room', {'room': room});
-
-      // rtc._socket.on('get_peers', function(data) {
-      //   rtc.fire('get_peers', data);
-      // });
-
-      // rtc._socket.on('receive_ice_candidate', function(data) {
-      //   rtc.fire('receive_ice_candidate', data);
-      // });
-
-      // rtc._socket.on('new_peer_connected', function(data) {
-      //   rtc.fire('new_peer_connected', data);
-      // });
-
-      // rtc._socket.on('remove_peer_connected', function(data) {
-      //   rtc.fire('remove_peer_connected', data);
-      // });
-
-      // rtc._socket.on('receive_offer', function(data) {
-      //   rtc.fire('receive_offer', data);
-      // });
-
-      // rtc._socket.on('receive_answer', function(data) {
-      //   rtc.fire('receive_answer', data);
-      // });
-
+      rtc._socket.emit('join_room', {'room': room, 'location': location});
 
       rtc._socket.on('disconnect', function(data) {
         var id = rtc._socket.id;

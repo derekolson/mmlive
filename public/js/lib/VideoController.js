@@ -33,12 +33,15 @@
       VideoController.prototype.videoError = function() {};
 
       VideoController.prototype.addRemoteStream = function(stream, id) {
-        var clone;
-        clone = this.cloneVideo('mainVideo', id);
-        clone.setAttribute('class', '');
-        rtc.attachStream(stream, clone.id);
-        this.remoteVideos.push(clone);
-        return clone;
+        var video;
+        video = document.createElement('video');
+        square.appendChild(video);
+        video.id = 'remote' + id;
+        rtc.attachStream(stream, video);
+        video.play();
+        this.remoteVideos.push(video);
+        document.getElementById('remoteVideos').appendChild(video);
+        return video;
       };
 
       VideoController.prototype.cloneVideo = function(domId, id) {
@@ -46,7 +49,6 @@
         video = document.getElementById(domId);
         clone = video.cloneNode(false);
         clone.id = 'remote' + id;
-        document.getElementById('remoteVideos').appendChild(clone);
         return clone;
       };
 

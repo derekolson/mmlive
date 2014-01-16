@@ -12,7 +12,7 @@
 
       ServiceManager.prototype.connect = function(onConnected) {
         this.socket = io.connect('/');
-        rtc.connect(this.socket);
+        rtc.connect(this.socket, "", "Chicago");
         rtc.on('connect', function() {
           var _this = this;
           console.log("WebRTC Connected");
