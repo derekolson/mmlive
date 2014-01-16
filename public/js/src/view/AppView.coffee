@@ -12,8 +12,6 @@ define ['jquery', 'hogan', 'text!../../templates/alertbox.html', 'ServiceManager
 				$('#mainVideo').fadeOut('fast')
 			)
 
-			ServiceManager.appView = @
-
 		buildAlertView: () ->
 			# alert template stub
 			data = 

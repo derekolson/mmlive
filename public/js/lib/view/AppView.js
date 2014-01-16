@@ -15,7 +15,6 @@
         $('#mainVideo').click(function() {
           return $('#mainVideo').fadeOut('fast');
         });
-        ServiceManager.appView = this;
       }
 
       AppView.prototype.buildAlertView = function() {
