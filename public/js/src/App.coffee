@@ -18,14 +18,6 @@ requirejs ['Resources', 'AppController', 'ServiceManager'], (Resources, AppContr
 		# Connect to Socket IO Server
 		ServiceManager.connect ->
 
-		# data = 
-		# 	message: 'STUFF'
-		# 	color: 'color1'
-		# console.log(Hogan);
-		# videoboxCompiled = Hogan.compile(template)
-		# console.log(videoboxCompiled)
-		# $('#output').html(videoboxCompiled.render(data))
-
 
 
 	# Disconnect on refresh / close

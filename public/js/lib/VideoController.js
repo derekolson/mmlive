@@ -36,8 +36,10 @@
         video = document.createElement('video');
         video.id = 'remote' + id;
         rtc.attachStream(stream, video);
-        video.play();
-        $(video).attr("muted", "muted");
+        $(video).attr("autoplay", "autoplay");
+        if (muted === true) {
+          $(video).attr("muted", "muted");
+        }
         this.remoteVideos.push(video);
         this.appView.addVideo(video, location);
         return video;

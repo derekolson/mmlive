@@ -76,21 +76,25 @@ html, body {
 	-webkit-transform-style: preserve-3d;
 }
 
-#canvas {
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	/*image-rendering: optimize-contrast;*/
-	/*cursor: none;*/
-	
-}
-
 #mainVideo {
 	/*-webkit-filter: blur(10px);*/
 	position: absolute;
 	top: 0px;
 	left: 0px;
 	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	display: none;
+}
+
+#mainVideo video {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	min-width: 100%;
+	min-height: 100%;
+	width: auto;
+	height: auto;
 }
 
 #remoteVideos {
@@ -114,15 +118,6 @@ html, body {
 	left: 0px;
 }
 
-/*#header h1 {
-	font: 20px "kiosk_black";
-	color: #ffffff;
-	letter-spacing: 2px;
-	position: absolute;
-	top: 20px;
-	left: 20px;
-}*/
-
 .logo {
 	background:url('../images/mmlogo1.png') no-repeat;
 	width:181px;
@@ -134,8 +129,10 @@ html, body {
 
 #alertHolder {
 	position: absolute;
-	right: 20px;
-	bottom: 20px;
+	width: 100%;
+	top: 40% ;
+/*	right: 20px;
+	bottom: 20px;*/
 }
 
 .locale {
@@ -144,9 +141,10 @@ html, body {
 	letter-spacing: 2px;
 	text-align: right;
 	position: absolute;
-	top: 20px;
+	bottom: 20px;
 	right: 20px;
 	text-transform: uppercase;
+	text-shadow: 1px 1px 3px #000;
 }
 
 .gridItem {
@@ -165,21 +163,22 @@ html, body {
 
 .alertbox {
 	padding: 20px;
-	background: rgba(0,0,0,0.5);
-	width: 250px;
+	background: rgba(0,0,0,0.75);
 }
 
 .alertbox h3 {
-	font: 14px "kiosk_light";
-	color: #ffffff;
+	font: 24px "kiosk_light";
+	color: #cc3434;
 	letter-spacing: 1px;
 	margin-bottom: 10px;
+	text-transform: uppercase;
 }
 
 .alertbox p {
-	font: 12px "kiosk_light";
+	font: 60px "kiosk_light";
 	color: #ffffff;
 	letter-spacing: 1px;
+	text-transform: uppercase;
 }
 
 .alertbox .close {

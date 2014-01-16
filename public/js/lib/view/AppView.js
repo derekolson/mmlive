@@ -6,73 +6,88 @@
 
 
 (function() {
-  define(['jquery', 'hogan', 'text!../../templates/alertbox.html'], function($, Hogan, template) {
+  define(['jquery', 'hogan', 'text!../../templates/alertbox.html', 'ServiceManager'], function($, Hogan, template, ServiceManager) {
     var AppView;
     return AppView = (function() {
-      function AppView(canvasId) {
-        var alertboxCompiled, colorCount, colors, data, i, numSquares, numSquaresVert, screenHeight, screenWidth, square, squareHeight, squareWidth, _i, _ref,
-          _this = this;
-        if (canvasId == null) {
-          canvasId = "canvas";
-        }
+      function AppView() {
+        this.buildGridView();
+        this.buildAlertView();
+        $('#mainVideo').click(function() {
+          return $('#mainVideo').fadeOut('fast');
+        });
+      }
+
+      AppView.prototype.buildAlertView = function() {
+        var alertboxCompiled, data;
         data = {
-          alertTitle: 'Alert Message Example',
-          alertBody: 'Lorem ipsum dolor sit amet, con secte tur ad ipiscing elit.'
+          alertTitle: 'Jenkins Alert (Compass)',
+          alertBody: 'Derek Olson broke the build!'
         };
         alertboxCompiled = Hogan.compile(template);
+        $('#alertHolder').hide();
         $('#alertHolder').html(alertboxCompiled.render(data));
-        $('.close').click(function(e) {
-          return $('#alertHolder').fadeOut('slow');
+        return $(window).keyup(function(e) {
+          if (e.keyCode === 32) {
+            $('#alertHolder').fadeIn('fast');
+            return setTimeout(function() {
+              return $('#alertHolder').fadeOut('slow');
+            }, 15000);
+          }
         });
+      };
+
+      AppView.prototype.buildGridView = function() {
+        var colorCount, colors, i, numTiles, numTilesVert, screenHeight, screenWidth, tile, tileHeight, tileWidth, _i, _ref, _results;
         colors = ['color1', 'color2', 'color3', 'color4', 'color5', 'color6', 'color7'];
-        this.squares = [];
+        this.tiles = [];
         screenWidth = $(window).width();
         screenHeight = $(window).height();
-        squareWidth = squareHeight = screenWidth / 4;
-        numSquaresVert = Math.floor(screenHeight / squareHeight);
-        numSquares = numSquaresVert * 4;
+        tileWidth = tileHeight = screenWidth / 4;
+        numTilesVert = Math.floor(screenHeight / tileHeight);
+        numTiles = numTilesVert * 4;
         colorCount = 0;
-        console.log(screenWidth);
-        console.log(screenHeight);
-        console.log(squareWidth);
-        console.log(numSquaresVert);
-        console.log(numSquares);
-        for (i = _i = 0, _ref = numSquares - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
-          square = $('<div></div>');
-          square.addClass('gridItem' + ' ' + colors[colorCount]);
-          square.css({
-            width: squareWidth,
-            height: squareHeight
+        _results = [];
+        for (i = _i = 0, _ref = numTiles - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+          tile = $('<div></div>');
+          tile.addClass('gridItem' + ' ' + colors[colorCount]);
+          tile.css({
+            width: tileWidth,
+            height: tileHeight
           });
-          $('#remoteVideos').append(square);
+          $('#remoteVideos').append(tile);
           ++colorCount;
           if (colorCount > colors.length - 1) {
             colorCount = 0;
           }
-          this.squares.push(square);
+          _results.push(this.tiles.push(tile));
         }
-      }
+        return _results;
+      };
 
       AppView.prototype.addVideo = function(video, location) {
-        var index, locEl, square;
-        index = Math.floor(Math.random() * this.squares.length);
-        square = this.squares[index];
-        this.squares.slice(index, 1);
+        var index, locEl, tile;
+        index = Math.floor(Math.random() * this.tiles.length);
+        tile = this.tiles.splice(index, 1)[0];
+        console.log(this.tiles);
         locEl = $('<h2></h2>');
         locEl.addClass('locale');
         locEl.html(location);
-        square.append($(video));
-        return square.append(locEl);
+        tile.append(video);
+        tile.append(locEl);
+        return tile.click(function() {
+          $('#mainVideo video')[0].src = video.src;
+          $('#mainVideo').fadeIn('fast');
+          return $('#mainVideo h2').html(location);
+        });
       };
 
       AppView.prototype.removeVideo = function(video) {
-        var square;
-        square = $(video.parentNode);
-        square.empty();
-        return this.squares.push(square);
+        var tile;
+        tile = $(video.parentNode);
+        tile.empty();
+        tile.unbind("click");
+        return this.tiles.push(tile);
       };
-
-      AppView.prototype.resize = function(w, h) {};
 
       return AppView;
 
