@@ -12,6 +12,10 @@ define ['jquery', 'hogan', 'text!../../templates/alertbox.html'], ($, Hogan, tem
 				alertBody: 'Lorem ipsum dolor sit amet, con secte tur ad ipiscing elit.'
 			alertboxCompiled = Hogan.compile(template)
 			$('#alertHolder').html(alertboxCompiled.render(data))
+			$('.close').click((e) => 
+				$('#alertHolder').fadeOut('slow')
+
+			)
 
 			colors = ['color1', 'color2', 'color3', 'color4', 'color5', 'color6', 'color7']
 			@squares = []
@@ -19,7 +23,7 @@ define ['jquery', 'hogan', 'text!../../templates/alertbox.html'], ($, Hogan, tem
 			screenWidth = $(window).width()
 			screenHeight = $(window).height()
 			squareWidth = squareHeight = screenWidth/4
-			numSquaresVert = Math.ceil(screenHeight/squareHeight)
+			numSquaresVert = Math.floor(screenHeight/squareHeight)
 			numSquares = numSquaresVert * 4
 			colorCount = 0
 

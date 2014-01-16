@@ -10,7 +10,8 @@
     var AppView;
     return AppView = (function() {
       function AppView(canvasId) {
-        var alertboxCompiled, colorCount, colors, data, i, numSquares, numSquaresVert, screenHeight, screenWidth, square, squareHeight, squareWidth, _i, _ref;
+        var alertboxCompiled, colorCount, colors, data, i, numSquares, numSquaresVert, screenHeight, screenWidth, square, squareHeight, squareWidth, _i, _ref,
+          _this = this;
         if (canvasId == null) {
           canvasId = "canvas";
         }
@@ -20,12 +21,15 @@
         };
         alertboxCompiled = Hogan.compile(template);
         $('#alertHolder').html(alertboxCompiled.render(data));
+        $('.close').click(function(e) {
+          return $('#alertHolder').fadeOut('slow');
+        });
         colors = ['color1', 'color2', 'color3', 'color4', 'color5', 'color6', 'color7'];
         this.squares = [];
         screenWidth = $(window).width();
         screenHeight = $(window).height();
         squareWidth = squareHeight = screenWidth / 4;
-        numSquaresVert = Math.ceil(screenHeight / squareHeight);
+        numSquaresVert = Math.floor(screenHeight / squareHeight);
         numSquares = numSquaresVert * 4;
         colorCount = 0;
         console.log(screenWidth);
