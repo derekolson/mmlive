@@ -15,9 +15,9 @@ define ['AppController'], (AppController) ->
 
 		videoSuccess: (stream) =>
 			# Set Background Video to Client Video Stream
-			@mainVideo = document.getElementById('mainVideo')
-			@mainVideo.src = window.webkitURL.createObjectURL(stream)
-			@remoteVideos.push(@mainVideo)
+			# @mainVideo = document.getElementById('mainVideo')
+			# @mainVideo.src = window.webkitURL.createObjectURL(stream)
+			# @remoteVideos.push(@mainVideo)
 
 		videoError: ->
 			#Stubbed in / not implemented

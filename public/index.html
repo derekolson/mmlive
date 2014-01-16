@@ -3,18 +3,24 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="fonts/fonts.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
-	<script src="js/vendor/jquery.min.js"></script>
+
     <script src="js/vendor/TweenLite.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/webrtc.js"></script>
+
     <script data-main="js/lib/App.js" src="js/vendor/require.js"></script>
 </head>
 <body>
-	<video id="mainVideo" autoplay></video>
+	<!-- <video id="mainVideo" autoplay></video> -->
+
+	<div id="remoteVideos" class="clearfix"></div>
+
+	<div id="alertHolder"></div>
+
     <div id="header">
 		<h1 id="logo">MEDIAMATH LIVE</h1>
 		<div id="locale">CHICAGO</div>
 	</div>
-	<div id="remoteVideos"></div>
+
 </body>
 </html>

@@ -6,12 +6,46 @@
 
 
 (function() {
-  define([], function() {
+  define(['jquery', 'hogan', 'text!../../templates/alertbox.html'], function($, Hogan, template) {
     var AppView;
     return AppView = (function() {
       function AppView(canvasId) {
+        var alertboxCompiled, colorCount, colors, data, i, numSquares, numSquaresVert, screenHeight, screenWidth, square, squareHeight, squareWidth, squares, _i;
         if (canvasId == null) {
           canvasId = "canvas";
+        }
+        data = {
+          alertTitle: 'Alert Title',
+          alertBody: 'Some additional body info here etc blah'
+        };
+        alertboxCompiled = Hogan.compile(template);
+        $('#alertHolder').html(alertboxCompiled.render(data));
+        colors = ['color1', 'color2', 'color3', 'color4', 'color5', 'color6', 'color7'];
+        squares = [];
+        screenWidth = $(window).width();
+        screenHeight = $(window).height();
+        squareWidth = squareHeight = screenWidth / 4;
+        numSquaresVert = Math.ceil(screenHeight / squareHeight);
+        numSquares = numSquaresVert * 4;
+        colorCount = 0;
+        console.log(screenWidth);
+        console.log(screenHeight);
+        console.log(squareWidth);
+        console.log(numSquaresVert);
+        console.log(numSquares);
+        for (i = _i = 0; 0 <= numSquares ? _i <= numSquares : _i >= numSquares; i = 0 <= numSquares ? ++_i : --_i) {
+          square = $('<div></div>');
+          square.addClass('gridItem' + ' ' + colors[colorCount]);
+          square.css({
+            width: squareWidth,
+            height: squareHeight
+          });
+          $('#remoteVideos').append(square);
+          ++colorCount;
+          if (colorCount > colors.length - 1) {
+            colorCount = 0;
+          }
+          squares.push(square);
         }
       }
 
