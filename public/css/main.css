@@ -113,10 +113,19 @@ html, body {
 	left: 0px;
 }
 
-#header h1 {
+/*#header h1 {
 	font: 20px "kiosk_black";
 	color: #ffffff;
 	letter-spacing: 2px;
+	position: absolute;
+	top: 20px;
+	left: 20px;
+}*/
+
+.logo {
+	background:url('../images/mmlogo1.png') no-repeat;
+	width:181px;
+	height:32px;
 	position: absolute;
 	top: 20px;
 	left: 20px;
@@ -133,7 +142,6 @@ html, body {
 	color: #ffffff;
 	letter-spacing: 2px;
 	text-align: right;
-
 	position: absolute;
 	top: 20px;
 	right: 20px;
@@ -141,6 +149,7 @@ html, body {
 
 .gridItem {
 	float: left;
+	overflow: hidden;
 	/*border: 1px solid #000;
 	box-sizing: border-box;*/
 }
@@ -152,6 +161,36 @@ html, body {
 .color5 { background: #ed3a68; }
 .color6 { background: #659941; }
 .color7 { background: #005387; }
+
+.alertbox {
+	padding: 20px;
+	background: rgba(0,0,0,0.5);
+	width: 250px;
+}
+
+.alertbox h3 {
+	font: 14px "kiosk_light";
+	color: #ffffff;
+	letter-spacing: 1px;
+	margin-bottom: 10px;
+}
+
+.alertbox p {
+	font: 12px "kiosk_light";
+	color: #ffffff;
+	letter-spacing: 1px;
+}
+
+.alertbox .close {
+	background: url('../images/x.png') no-repeat;
+	position: absolute;
+	width:20px;
+	height:20px;
+	top:0px;
+	right:0px;
+	text-indent: -999px;
+	overflow: hidden;
+}
 
 .clearfix:before,
 .clearfix:after {

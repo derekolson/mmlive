@@ -8,8 +8,8 @@ define ['jquery', 'hogan', 'text!../../templates/alertbox.html'], ($, Hogan, tem
 
 			# alert template stub
 			data = 
-				alertTitle: 'Alert Title'
-				alertBody: 'Some additional body info here etc blah'
+				alertTitle: 'Alert Message Example'
+				alertBody: 'Lorem ipsum dolor sit amet, con secte tur ad ipiscing elit.'
 			alertboxCompiled = Hogan.compile(template)
 			$('#alertHolder').html(alertboxCompiled.render(data))
 
