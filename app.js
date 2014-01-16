@@ -44,5 +44,12 @@ server.listen( app.get('port'), function(){
 //WebRTC Signaling Channel (project_root/webrtc)
 webrtc.init(io)
 
+io.sockets.on('connection', function(socket) {
+  socket.on('alert', function (data) {
+    io.sockets.emit('alert', data);
+  });
+});
+
+
 //Routing
 app.get('/', routes.index);

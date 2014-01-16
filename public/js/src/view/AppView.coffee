@@ -12,23 +12,30 @@ define ['jquery', 'hogan', 'text!../../templates/alertbox.html', 'ServiceManager
 				$('#mainVideo').fadeOut('fast')
 			)
 
+			ServiceManager.appView = @
+
 		buildAlertView: () ->
 			# alert template stub
 			data = 
 				alertTitle: 'Jenkins Alert (Compass)'
 				alertBody: 'Derek Olson broke the build!'
-			alertboxCompiled = Hogan.compile(template)
+
+			@alertboxCompiled = Hogan.compile(template)
 			$('#alertHolder').hide()
-			$('#alertHolder').html(alertboxCompiled.render(data))
+			
 
 			$(window).keyup( (e) -> 
 				if(e.keyCode == 32)
-					$('#alertHolder').fadeIn('fast')
-
-					setTimeout( () ->
-						$('#alertHolder').fadeOut('slow')
-					, 15000)
+					ServiceManager.send("alert", data)		
 			)
+
+		showAlert: (data) ->
+			$('#alertHolder').html(@alertboxCompiled.render(data))
+
+			$('#alertHolder').fadeIn('fast')
+			setTimeout( () ->
+				$('#alertHolder').fadeOut('slow')
+			, 15000)
 
 		buildGridView: () ->
 			colors = ['color1', 'color2', 'color3', 'color4', 'color5', 'color6', 'color7']
@@ -37,7 +44,10 @@ define ['jquery', 'hogan', 'text!../../templates/alertbox.html', 'ServiceManager
 			screenWidth = $(window).width()
 			screenHeight = $(window).height()
 			tileWidth = tileHeight = screenWidth / 4
-			numTilesVert = Math.floor(screenHeight/tileHeight)
+			ratio = screenHeight/tileHeight
+			numTilesVert = Math.floor(ratio)
+			# if (ratio - numTilesVert >= 0.5)
+			# 	numTilesVert = Math.ceil(ratio)
 			numTiles = numTilesVert * 4
 			colorCount = 0
 
@@ -46,6 +56,7 @@ define ['jquery', 'hogan', 'text!../../templates/alertbox.html', 'ServiceManager
 			# console.log(tileWidth)
 			# console.log(numTilesVert)
 			# console.log(numTiles)
+			console.log(ratio + " : " + Math.ceil(ratio)/ratio)
 
 			for i in [0..numTiles-1]
 				tile = $('<div></div>')
@@ -61,7 +72,6 @@ define ['jquery', 'hogan', 'text!../../templates/alertbox.html', 'ServiceManager
 		addVideo: (video, location) ->
 			index = Math.floor(Math.random() * @tiles.length)
 			tile = @tiles.splice(index, 1)[0];
-			console.log(@tiles)
 
 			locEl = $('<h2></h2>')
 			locEl.addClass('locale')

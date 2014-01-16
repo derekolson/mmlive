@@ -15,37 +15,44 @@
         $('#mainVideo').click(function() {
           return $('#mainVideo').fadeOut('fast');
         });
+        ServiceManager.appView = this;
       }
 
       AppView.prototype.buildAlertView = function() {
-        var alertboxCompiled, data;
+        var data;
         data = {
           alertTitle: 'Jenkins Alert (Compass)',
           alertBody: 'Derek Olson broke the build!'
         };
-        alertboxCompiled = Hogan.compile(template);
+        this.alertboxCompiled = Hogan.compile(template);
         $('#alertHolder').hide();
-        $('#alertHolder').html(alertboxCompiled.render(data));
         return $(window).keyup(function(e) {
           if (e.keyCode === 32) {
-            $('#alertHolder').fadeIn('fast');
-            return setTimeout(function() {
-              return $('#alertHolder').fadeOut('slow');
-            }, 15000);
+            return ServiceManager.send("alert", data);
           }
         });
       };
 
+      AppView.prototype.showAlert = function(data) {
+        $('#alertHolder').html(this.alertboxCompiled.render(data));
+        $('#alertHolder').fadeIn('fast');
+        return setTimeout(function() {
+          return $('#alertHolder').fadeOut('slow');
+        }, 15000);
+      };
+
       AppView.prototype.buildGridView = function() {
-        var colorCount, colors, i, numTiles, numTilesVert, screenHeight, screenWidth, tile, tileHeight, tileWidth, _i, _ref, _results;
+        var colorCount, colors, i, numTiles, numTilesVert, ratio, screenHeight, screenWidth, tile, tileHeight, tileWidth, _i, _ref, _results;
         colors = ['color1', 'color2', 'color3', 'color4', 'color5', 'color6', 'color7'];
         this.tiles = [];
         screenWidth = $(window).width();
         screenHeight = $(window).height();
         tileWidth = tileHeight = screenWidth / 4;
-        numTilesVert = Math.floor(screenHeight / tileHeight);
+        ratio = screenHeight / tileHeight;
+        numTilesVert = Math.floor(ratio);
         numTiles = numTilesVert * 4;
         colorCount = 0;
+        console.log(ratio + " : " + Math.ceil(ratio) / ratio);
         _results = [];
         for (i = _i = 0, _ref = numTiles - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
           tile = $('<div></div>');
@@ -68,7 +75,6 @@
         var index, locEl, tile;
         index = Math.floor(Math.random() * this.tiles.length);
         tile = this.tiles.splice(index, 1)[0];
-        console.log(this.tiles);
         locEl = $('<h2></h2>');
         locEl.addClass('locale');
         locEl.html(location);

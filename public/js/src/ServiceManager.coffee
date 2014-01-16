@@ -35,10 +35,9 @@ define ['VideoController'], (VideoController) ->
 			
 
 			# SocketIO Connection
-			@socket.on('connect', ->
-				
+			@socket.on('alert', (data) ->
+				VideoController.appView.showAlert(data)
 			)
-			
 
 		# Send Data to Server
 		send: (event, data) ->

@@ -29,7 +29,9 @@
           });
           return onConnected();
         });
-        return this.socket.on('connect', function() {});
+        return this.socket.on('alert', function(data) {
+          return VideoController.appView.showAlert(data);
+        });
       };
 
       ServiceManager.prototype.send = function(event, data) {
