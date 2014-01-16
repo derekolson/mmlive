@@ -161,7 +161,6 @@ if (navigator.webkitGetUserMedia) {
       rtc._socket.on('get_peers', function(data) {
         rtc.connections = data.connections;
         rtc.locations = data.locations;
-        console.log(data.locations);
         console.log(rtc.locations);
         rtc._me = data.you;
         if (rtc.offerSent) { // 'ready' was fired before 'get_peers'

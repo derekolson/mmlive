@@ -14,8 +14,9 @@
         this.videoSuccess = __bind(this.videoSuccess, this);
       }
 
-      VideoController.prototype.init = function() {
+      VideoController.prototype.init = function(location) {
         this.remoteVideos = [];
+        this.location = location;
         if (PeerConnection) {
           return rtc.createStream({
             video: true,
@@ -25,19 +26,19 @@
       };
 
       VideoController.prototype.videoSuccess = function(stream) {
-        return this.addRemoteStream(stream, "main");
+        return this.addRemoteStream(stream, "main", this.location);
       };
 
       VideoController.prototype.videoError = function() {};
 
-      VideoController.prototype.addRemoteStream = function(stream, id) {
+      VideoController.prototype.addRemoteStream = function(stream, id, location) {
         var video;
         video = document.createElement('video');
         video.id = 'remote' + id;
         rtc.attachStream(stream, video);
         video.play();
         this.remoteVideos.push(video);
-        this.appView.addVideo(video);
+        this.appView.addVideo(video, location);
         return video;
       };
 

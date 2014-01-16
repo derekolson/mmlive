@@ -138,7 +138,7 @@ html, body {
 	bottom: 20px;
 }
 
-#locale {
+.locale {
 	font: 20px "kiosk_light";
 	color: #ffffff;
 	letter-spacing: 2px;
@@ -146,14 +146,13 @@ html, body {
 	position: absolute;
 	top: 20px;
 	right: 20px;
+	text-transform: uppercase;
 }
 
 .gridItem {
 	float: left;
 	overflow: hidden;
-	/*border: 1px solid #000;
-	box-sizing: border-box;*/
-	overflow: hidden;
+	position: relative;
 }
 
 .color1 { background: #cc3434; }

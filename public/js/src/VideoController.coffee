@@ -6,8 +6,9 @@ define ['AppController'], (AppController) ->
 	class VideoController
 		constructor: ->
 			
-		init: () ->
+		init: (location) ->
 			@remoteVideos = []
+			@location = location
 
 			# Ask client to use local video stream
 			if(PeerConnection)
@@ -15,12 +16,12 @@ define ['AppController'], (AppController) ->
 
 		videoSuccess: (stream) =>
 			# Set Background Video to Client Video Stream
-			@addRemoteStream(stream, "main")
+			@addRemoteStream(stream, "main", @location)
 
 		videoError: ->
 			#Stubbed in / not implemented
 
-		addRemoteStream: (stream, id) ->
+		addRemoteStream: (stream, id, location) ->
 
 			video = document.createElement('video')
 
@@ -29,9 +30,7 @@ define ['AppController'], (AppController) ->
 			video.play()
 			
 			@remoteVideos.push(video)
-			# document.getElementById('remoteVideos').appendChild(video)
-			# 
-			@appView.addVideo(video);
+			@appView.addVideo(video, location);
 			return video
 
 		#Clone DOM video object

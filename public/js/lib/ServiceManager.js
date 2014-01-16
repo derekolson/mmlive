@@ -11,15 +11,17 @@
       function ServiceManager() {}
 
       ServiceManager.prototype.connect = function(onConnected) {
+        var location;
         this.socket = io.connect('/');
-        rtc.connect(this.socket, "", "Chicago");
+        location = prompt("Enter your location", "Chicago");
+        rtc.connect(this.socket, "", location);
         rtc.on('connect', function() {
           var _this = this;
           console.log("WebRTC Connected");
-          VideoController.init();
+          VideoController.init(location);
           rtc.on('add remote stream', function(stream, id) {
             console.log("Video Stream Connected: " + id);
-            return VideoController.addRemoteStream(stream, id);
+            return VideoController.addRemoteStream(stream, id, rtc.locations[id]);
           });
           rtc.on('disconnect stream', function(id) {
             console.log("Video Stream Disconnected: " + id);

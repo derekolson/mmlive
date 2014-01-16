@@ -49,18 +49,22 @@
         }
       }
 
-      AppView.prototype.addVideo = function(video) {
-        var index, square;
+      AppView.prototype.addVideo = function(video, location) {
+        var index, locEl, square;
         index = Math.floor(Math.random() * this.squares.length);
         square = this.squares[index];
         this.squares.slice(index, 1);
-        return square.append($(video));
+        locEl = $('<h2></h2>');
+        locEl.addClass('locale');
+        locEl.html(location);
+        square.append($(video));
+        return square.append(locEl);
       };
 
       AppView.prototype.removeVideo = function(video) {
         var square;
         square = $(video.parentNode);
-        video.parentNode.removeChild(video);
+        square.empty();
         return this.squares.push(square);
       };
 

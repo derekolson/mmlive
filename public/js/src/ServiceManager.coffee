@@ -10,15 +10,17 @@ define ['VideoController'], (VideoController) ->
 			@socket = io.connect('/')
 			
 			# WebRTC Signaling Channel API 
-			rtc.connect(@socket, "", "Chicago")
+			# 
+			location = prompt("Enter your location", "Chicago")
+			rtc.connect(@socket, "", location)
 			rtc.on('connect', ->
 				console.log("WebRTC Connected")
-				VideoController.init()
+				VideoController.init(location)
 			
 				# Add remote video streams as they connect
 				rtc.on('add remote stream', (stream, id) =>
 					console.log("Video Stream Connected: " + id)
-					VideoController.addRemoteStream(stream, id)
+					VideoController.addRemoteStream(stream, id, rtc.locations[id])
 				)
 
 				# Remove remote streams as they disconnect

@@ -40,16 +40,21 @@ define ['jquery', 'hogan', 'text!../../templates/alertbox.html'], ($, Hogan, tem
 				@squares.push(square)
 
 
-		addVideo: (video) ->
+		addVideo: (video, location) ->
 			index = Math.floor(Math.random() * @squares.length)
 			square = @squares[index]
 			@squares.slice(index, 1);
 
-			square.append($(video));
+			locEl = $('<h2></h2>')
+			locEl.addClass('locale')
+			locEl.html(location)
+
+			square.append($(video))
+			square.append(locEl)
 
 		removeVideo: (video) ->
 			square = $(video.parentNode)
-			video.parentNode.removeChild(video)
+			square.empty();
 			@squares.push(square)
 
 
