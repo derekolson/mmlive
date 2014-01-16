@@ -16,18 +16,20 @@ define ['AppController'], (AppController) ->
 
 		videoSuccess: (stream) =>
 			# Set Background Video to Client Video Stream
-			@addRemoteStream(stream, "main", @location)
+			@addRemoteStream(stream, "main", @location, true)
 
 		videoError: ->
 			#Stubbed in / not implemented
 
-		addRemoteStream: (stream, id, location) ->
+		addRemoteStream: (stream, id, location, muted) ->
 
 			video = document.createElement('video')
 
 			video.id = 'remote' + id
 			rtc.attachStream(stream, video)
 			video.play()
+
+			$(video).attr("muted", "muted")
 			
 			@remoteVideos.push(video)
 			@appView.addVideo(video, location);

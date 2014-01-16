@@ -26,17 +26,18 @@
       };
 
       VideoController.prototype.videoSuccess = function(stream) {
-        return this.addRemoteStream(stream, "main", this.location);
+        return this.addRemoteStream(stream, "main", this.location, true);
       };
 
       VideoController.prototype.videoError = function() {};
 
-      VideoController.prototype.addRemoteStream = function(stream, id, location) {
+      VideoController.prototype.addRemoteStream = function(stream, id, location, muted) {
         var video;
         video = document.createElement('video');
         video.id = 'remote' + id;
         rtc.attachStream(stream, video);
         video.play();
+        $(video).attr("muted", "muted");
         this.remoteVideos.push(video);
         this.appView.addVideo(video, location);
         return video;
