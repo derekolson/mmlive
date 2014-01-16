@@ -46,10 +46,10 @@
         this.tiles = [];
         screenWidth = $(window).width();
         screenHeight = $(window).height();
-        tileWidth = tileHeight = screenWidth / 4;
+        tileWidth = tileHeight = screenWidth / 5;
         ratio = screenHeight / tileHeight;
         numTilesVert = Math.floor(ratio);
-        numTiles = numTilesVert * 4;
+        numTiles = numTilesVert * 5;
         colorCount = 0;
         console.log(ratio + " : " + Math.ceil(ratio) / ratio);
         _results = [];

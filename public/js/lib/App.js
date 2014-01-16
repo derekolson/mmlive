@@ -23,4 +23,15 @@
     return rtc.disconnect();
   });
 
+  window.onbeforeunload = function(e) {
+    var message;
+    rtc.disconnect();
+    message = "Disconnecting Client";
+    e = e || window.event;
+    if (e) {
+      e.returnValue = message;
+    }
+    return message;
+  };
+
 }).call(this);

@@ -41,12 +41,12 @@ define ['jquery', 'hogan', 'text!../../templates/alertbox.html', 'ServiceManager
 
 			screenWidth = $(window).width()
 			screenHeight = $(window).height()
-			tileWidth = tileHeight = screenWidth / 4
+			tileWidth = tileHeight = screenWidth / 5
 			ratio = screenHeight/tileHeight
 			numTilesVert = Math.floor(ratio)
 			# if (ratio - numTilesVert >= 0.5)
 			# 	numTilesVert = Math.ceil(ratio)
-			numTiles = numTilesVert * 4
+			numTiles = numTilesVert * 5
 			colorCount = 0
 
 			# console.log(screenWidth)

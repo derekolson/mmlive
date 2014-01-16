@@ -25,10 +25,10 @@ requirejs ['Resources', 'AppController', 'ServiceManager'], (Resources, AppContr
 		rtc.disconnect();
 	)
 
-	# window.onbeforeunload = (e) ->
-		# rtc.disconnect();
-		# message = "Disconnecting Client"
-		# e = e || window.event;
-		# if (e)
-		# 	e.returnValue = message;
-		# return message;
+	window.onbeforeunload = (e) ->
+		rtc.disconnect();
+		message = "Disconnecting Client"
+		e = e || window.event;
+		if (e)
+			e.returnValue = message;
+		return message;
