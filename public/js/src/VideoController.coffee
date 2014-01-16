@@ -12,7 +12,7 @@ define ['AppController'], (AppController) ->
 
 			# Ask client to use local video stream
 			if(PeerConnection)
-				rtc.createStream({video: true, audio: false}, @videoSuccess)
+				rtc.createStream({video: true, audio: true}, @videoSuccess)
 
 		videoSuccess: (stream) =>
 			# Set Background Video to Client Video Stream

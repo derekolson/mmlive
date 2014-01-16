@@ -20,7 +20,7 @@
         if (PeerConnection) {
           return rtc.createStream({
             video: true,
-            audio: false
+            audio: true
           }, this.videoSuccess);
         }
       };
