@@ -17,7 +17,7 @@ var app = express()
 //Configure Express Server
 app.configure(function(){
   app.set('port', process.env.PORT || 8000);
-  app.use(express.basicAuth('process.env.MM_USER' || 'mediamath', 'process.env.MM_PSK') || 'live');
+  app.use(express.basicAuth(process.env.MM_USER || 'mediamath', process.env.MM_PASS || 'live');
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
