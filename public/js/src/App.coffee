@@ -16,7 +16,9 @@ requirejs ['Resources', 'AppController', 'ServiceManager'], (Resources, AppContr
 		# Kick-off App
 		AppController.init()
 		# Connect to Socket IO Server
-		ServiceManager.connect ->
+		ServiceManager.connect( ->,
+			# socket connection handler
+		)
 
 
 

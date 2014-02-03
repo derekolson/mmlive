@@ -10,9 +10,10 @@ define ['VideoController'], (VideoController) ->
 			@socket = io.connect('/')
 			
 			# WebRTC Signaling Channel API 
-			# 
 			location = prompt("Enter your location", "Chicago")
+
 			rtc.connect(@socket, "", location)
+			
 			rtc.on('connect', ->
 				console.log("WebRTC Connected")
 				VideoController.init(location)

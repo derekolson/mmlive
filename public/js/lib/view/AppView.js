@@ -41,24 +41,26 @@
       };
 
       AppView.prototype.buildGridView = function() {
-        var colorCount, colors, i, numTiles, numTilesVert, ratio, screenHeight, screenWidth, tile, tileHeight, tileWidth, _i, _ref, _results;
+        var TILES_HORIZ, TILES_VERT, colorCount, colors, i, numTiles, ratio, screenHeight, screenWidth, tile, tileHeight, tileWidth, _i, _ref, _results;
         colors = ['color1', 'color2', 'color3', 'color4', 'color5', 'color6', 'color7'];
         this.tiles = [];
+        TILES_HORIZ = 5;
+        TILES_VERT = 3;
         screenWidth = $(window).width();
         screenHeight = $(window).height();
-        tileWidth = tileHeight = screenWidth / 5;
-        ratio = screenHeight / tileHeight;
-        numTilesVert = Math.floor(ratio);
-        numTiles = numTilesVert * 5;
+        tileWidth = 100 / TILES_HORIZ;
+        tileHeight = (tileWidth * screenWidth) / screenHeight;
+        ratio = tileWidth / tileHeight;
+        numTiles = TILES_HORIZ * TILES_VERT;
         colorCount = 0;
-        console.log(ratio + " : " + Math.ceil(ratio) / ratio);
+        console.log(tileWidth + " : " + screenWidth + "-" + tileHeight + " : " + screenHeight);
         _results = [];
         for (i = _i = 0, _ref = numTiles - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
           tile = $('<div></div>');
           tile.addClass('gridItem' + ' ' + colors[colorCount]);
           tile.css({
-            width: tileWidth,
-            height: tileHeight
+            width: tileWidth + '%',
+            height: tileHeight + '%'
           });
           $('#remoteVideos').append(tile);
           ++colorCount;

@@ -39,14 +39,20 @@ define ['jquery', 'hogan', 'text!../../templates/alertbox.html', 'ServiceManager
 			colors = ['color1', 'color2', 'color3', 'color4', 'color5', 'color6', 'color7']
 			@tiles = []
 
+			TILES_HORIZ = 5
+			TILES_VERT = 3
+
 			screenWidth = $(window).width()
 			screenHeight = $(window).height()
-			tileWidth = tileHeight = screenWidth / 5
-			ratio = screenHeight/tileHeight
-			numTilesVert = Math.floor(ratio)
+			# tileWidth = tileHeight = screenWidth / 5
+			tileWidth = 100 / TILES_HORIZ
+			tileHeight = (tileWidth * screenWidth) / screenHeight # 100 / TILES_VERT
+
+			ratio = tileWidth / tileHeight
+			# numTilesVert = Math.floor(ratio)
 			# if (ratio - numTilesVert >= 0.5)
 			# 	numTilesVert = Math.ceil(ratio)
-			numTiles = numTilesVert * 5
+			numTiles = TILES_HORIZ * TILES_VERT
 			colorCount = 0
 
 			# console.log(screenWidth)
@@ -54,12 +60,12 @@ define ['jquery', 'hogan', 'text!../../templates/alertbox.html', 'ServiceManager
 			# console.log(tileWidth)
 			# console.log(numTilesVert)
 			# console.log(numTiles)
-			console.log(ratio + " : " + Math.ceil(ratio)/ratio)
+			console.log(tileWidth + " : " + screenWidth + "-" + tileHeight + " : " + screenHeight)
 
 			for i in [0..numTiles-1]
 				tile = $('<div></div>')
 				tile.addClass('gridItem' + ' ' + colors[colorCount])
-				tile.css({width: tileWidth, height: tileHeight})
+				tile.css({width: tileWidth + '%', height: tileHeight + '%'})
 				$('#remoteVideos').append(tile)
 				# cycle thru colors
 				++colorCount
