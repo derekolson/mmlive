@@ -17,17 +17,6 @@
 
       Resources.prototype.load = function(callback) {
         this.callback = callback;
-        this.queue = new createjs.LoadQueue(false);
-        this.queue.addEventListener("complete", this.handleComplete);
-        return this.queue.loadManifest([
-          {
-            id: "buzz_bg",
-            src: "img/buzz_bg.png"
-          }, {
-            id: "twitter_bg",
-            src: "img/twitter_bg.png"
-          }
-        ]);
       };
 
       Resources.prototype.handleComplete = function() {

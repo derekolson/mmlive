@@ -23,9 +23,7 @@
       };
 
       AppController.prototype.resize = function(e) {
-        var h, w;
-        w = window.innerWidth;
-        return h = window.innerHeight;
+        return this.appView.resize();
       };
 
       return AppController;

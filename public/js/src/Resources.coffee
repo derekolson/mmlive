@@ -5,12 +5,12 @@
 define [], ->
 	class Resources
 		load: (@callback) ->
-			@queue = new createjs.LoadQueue(false)
-			@queue.addEventListener("complete", @handleComplete)
-			@queue.loadManifest([
-				{id: "buzz_bg", src:"img/buzz_bg.png"},
-				{id: "twitter_bg", src:"img/twitter_bg.png"}
-			])
+			# @queue = new createjs.LoadQueue(false)
+			# @queue.addEventListener("complete", @handleComplete)
+			# @queue.loadManifest([
+			# 	{id: "buzz_bg", src:"img/buzz_bg.png"},
+			# 	{id: "twitter_bg", src:"img/twitter_bg.png"}
+			# ])
 
 		handleComplete: =>
 			console.log("Resources Loaded")

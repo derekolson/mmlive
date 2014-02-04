@@ -12,25 +12,22 @@ require.config({
 });
 
 requirejs ['Resources', 'AppController', 'ServiceManager'], (Resources, AppController, ServiceManager) ->
-	# Resources.load ->
-		# Kick-off App
-		AppController.init()
-		# Connect to Socket IO Server
-		ServiceManager.connect( ->,
-			# socket connection handler
-		)
-
-
-
-	# Disconnect on refresh / close
-	window.addEventListener("unload", ->
-		rtc.disconnect();
+	# Kick-off App
+	AppController.init()
+	
+	# Connect to Socket IO Server
+	ServiceManager.connect( ->
+		# socket connection handler
 	)
-
+	
+	# Disconnect on refresh / close
 	window.onbeforeunload = (e) ->
-		rtc.disconnect();
-		message = "Disconnecting Client"
-		e = e || window.event;
+		rtc.disconnect()
+		message = "Client has disconnected.."
+		e = e || window.event
 		if (e)
-			e.returnValue = message;
+			e.returnValue = message
 		return message;
+
+	window.onunload = () ->
+		rtc.disconnect()

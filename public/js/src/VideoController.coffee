@@ -16,25 +16,23 @@ define ['AppController'], (AppController) ->
 
 		videoSuccess: (stream) =>
 			# Set Background Video to Client Video Stream
-			@addRemoteStream(stream, "main", @location, true)
+			@addRemoteStream(stream, {id: "main", location: @location, mute: true })
 
 		videoError: ->
 			#Stubbed in / not implemented
 
-		addRemoteStream: (stream, id, location, muted) ->
-
+		addRemoteStream: (stream, options) ->
 			video = document.createElement('video')
 
-			video.id = 'remote' + id
+			video.id = 'video-' + options.id
 			rtc.attachStream(stream, video)
 			$(video).attr("autoplay", "autoplay")
-			# video.play()
 
-			if(muted == true)
+			if(options.mute)
 				$(video).attr("muted", "muted")
 			
 			@remoteVideos.push(video)
-			@appView.addVideo(video, location);
+			@appView.addVideo(video, options.location);
 			return video
 
 		#Clone DOM video object
@@ -46,7 +44,7 @@ define ['AppController'], (AppController) ->
 		
 		#Remove DOM video object
 		removeVideo: (id) ->
-			video = document.getElementById('remote' + id)
+			video = document.getElementById('video-' + id)
 			if(video)
 				@appView.removeVideo(video)
 				@remoteVideos.splice(@remoteVideos.indexOf(video), 1)

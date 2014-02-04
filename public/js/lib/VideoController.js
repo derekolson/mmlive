@@ -26,22 +26,26 @@
       };
 
       VideoController.prototype.videoSuccess = function(stream) {
-        return this.addRemoteStream(stream, "main", this.location, true);
+        return this.addRemoteStream(stream, {
+          id: "main",
+          location: this.location,
+          mute: true
+        });
       };
 
       VideoController.prototype.videoError = function() {};
 
-      VideoController.prototype.addRemoteStream = function(stream, id, location, muted) {
+      VideoController.prototype.addRemoteStream = function(stream, options) {
         var video;
         video = document.createElement('video');
-        video.id = 'remote' + id;
+        video.id = 'video-' + options.id;
         rtc.attachStream(stream, video);
         $(video).attr("autoplay", "autoplay");
-        if (muted === true) {
+        if (options.mute) {
           $(video).attr("muted", "muted");
         }
         this.remoteVideos.push(video);
-        this.appView.addVideo(video, location);
+        this.appView.addVideo(video, options.location);
         return video;
       };
 
@@ -55,7 +59,7 @@
 
       VideoController.prototype.removeVideo = function(id) {
         var video;
-        video = document.getElementById('remote' + id);
+        video = document.getElementById('video-' + id);
         if (video) {
           this.appView.removeVideo(video);
           return this.remoteVideos.splice(this.remoteVideos.indexOf(video), 1);

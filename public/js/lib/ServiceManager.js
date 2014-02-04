@@ -21,7 +21,10 @@
           VideoController.init(location);
           rtc.on('add remote stream', function(stream, id) {
             console.log("Video Stream Connected: " + id);
-            return VideoController.addRemoteStream(stream, id, rtc.locations[id]);
+            return VideoController.addRemoteStream(stream, {
+              id: id,
+              location: rtc.locations[id]
+            });
           });
           rtc.on('disconnect stream', function(id) {
             console.log("Video Stream Disconnected: " + id);

@@ -16,22 +16,20 @@
 
   requirejs(['Resources', 'AppController', 'ServiceManager'], function(Resources, AppController, ServiceManager) {
     AppController.init();
-    return ServiceManager.connect(function() {});
+    ServiceManager.connect(function() {});
+    window.onbeforeunload = function(e) {
+      var message;
+      rtc.disconnect();
+      message = "Client has disconnected..";
+      e = e || window.event;
+      if (e) {
+        e.returnValue = message;
+      }
+      return message;
+    };
+    return window.onunload = function() {
+      return rtc.disconnect();
+    };
   });
-
-  window.addEventListener("unload", function() {
-    return rtc.disconnect();
-  });
-
-  window.onbeforeunload = function(e) {
-    var message;
-    rtc.disconnect();
-    message = "Disconnecting Client";
-    e = e || window.event;
-    if (e) {
-      e.returnValue = message;
-    }
-    return message;
-  };
 
 }).call(this);

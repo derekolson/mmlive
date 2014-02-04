@@ -10,6 +10,7 @@ define ['jquery', 'hogan', 'text!../../templates/alertbox.html', 'ServiceManager
 
 			$('#mainVideo').click(() ->
 				$('#mainVideo').fadeOut('fast')
+				$('#mainVideo video')[0].src = ""
 			)
 
 		buildAlertView: () ->
@@ -35,47 +36,83 @@ define ['jquery', 'hogan', 'text!../../templates/alertbox.html', 'ServiceManager
 				$('#alertHolder').fadeOut('slow')
 			, 15000)
 
-		buildGridView: () ->
-			colors = ['color1', 'color2', 'color3', 'color4', 'color5', 'color6', 'color7']
-			@tiles = []
 
-			TILES_HORIZ = 5
-			TILES_VERT = 3
+		buildGridView: () ->
+			@vacantTiles = []
+			@colors = ['color1', 'color2', 'color3', 'color4', 'color5', 'color6', 'color7']
+			@colorCount = 0
+			
+			@MIN_TILES = 8
+
+			for i in [0..@MIN_TILES-1]
+				@addTile()
+
+
+		addTile: () =>
+			tile = $('<div></div>')
+			# tile.addClass('gridItem' + ' ' + @colors[Math.floor(Math.random()*@colors.length)])
+			tile.addClass('gridItem' + ' ' + @colors[@colorCount])
+			$('#remoteVideos').append(tile)
+
+			@colorCount++
+			@colorCount = 0 if @colorCount > @colors.length-1
+			@vacantTiles.push(tile)
+			@resize();
+
+			return tile
+
+
+		resize: (w, h) ->
+			$gridItem = $('.gridItem')
+			$videoContainer = $('#remoteVideos')
+			$video = $('.gridItem video')
 
 			screenWidth = $(window).width()
 			screenHeight = $(window).height()
-			# tileWidth = tileHeight = screenWidth / 5
-			tileWidth = 100 / TILES_HORIZ
-			tileHeight = (tileWidth * screenWidth) / screenHeight # 100 / TILES_VERT
+			numTiles = $gridItem.length
 
-			ratio = tileWidth / tileHeight
-			# numTilesVert = Math.floor(ratio)
-			# if (ratio - numTilesVert >= 0.5)
-			# 	numTilesVert = Math.ceil(ratio)
-			numTiles = TILES_HORIZ * TILES_VERT
-			colorCount = 0
+			tileWidth = tileHeight = @gridPack(screenWidth, screenHeight, numTiles)
+			
+			$videoContainer.css({width: (tileWidth * Math.floor(screenWidth / tileWidth)) + 'px'})
+			$gridItem.css({width: tileWidth + 'px', height: tileHeight + 'px'})
+			
+			# videoWidth = $video.width()
+			# if(videoWidth && videoWidth > 0)
+			# 	videoOffset = -(videoWidth - tileWidth) / 2
+			# 	$video.css({left: videoOffset + 'px'})
 
-			# console.log(screenWidth)
-			# console.log(screenHeight)
-			# console.log(tileWidth)
-			# console.log(numTilesVert)
-			# console.log(numTiles)
-			console.log(tileWidth + " : " + screenWidth + "-" + tileHeight + " : " + screenHeight)
 
-			for i in [0..numTiles-1]
-				tile = $('<div></div>')
-				tile.addClass('gridItem' + ' ' + colors[colorCount])
-				tile.css({width: tileWidth + '%', height: tileHeight + '%'})
-				$('#remoteVideos').append(tile)
-				# cycle thru colors
-				++colorCount
-				colorCount = 0 if colorCount > colors.length-1
-				@tiles.push(tile)
+		# Square Packing Algorithm 
+		# - provide container width, height, number of squares
+		# - returns optimal side length
+		gridPack: (x, y, n) ->
+			px = Math.ceil(Math.sqrt(n *  x / y))
+			
+			if(Math.floor(px * y / x) * px < n)
+				sx = y / Math.ceil(px * y  / x)
+			else
+				sx = x / px
+			
+			py = Math.ceil(Math.sqrt(n * y / x))
+			
+			if(Math.floor(py * x / y) * py < n)
+				sy = x / Math.ceil(x * py / y)
+			else
+				sy = y / py
 
+			return Math.floor(Math.max(sx, sy))
+
+		# gcd: (a, b) ->
+		# 	if(b==0)
+		# 		return a
+		# 	return @gcd(b, a%b)
 
 		addVideo: (video, location) ->
-			index = Math.floor(Math.random() * @tiles.length)
-			tile = @tiles.splice(index, 1)[0];
+			if(@vacantTiles.length == 0)
+				@addTile()
+
+			index = Math.floor(Math.random() * @vacantTiles.length)
+			tile = @vacantTiles.splice(index, 1)[0];
 
 			locEl = $('<h2></h2>')
 			locEl.addClass('locale')
@@ -84,14 +121,30 @@ define ['jquery', 'hogan', 'text!../../templates/alertbox.html', 'ServiceManager
 			tile.append(video)
 			tile.append(locEl)
 
-			tile.click(() ->
-				$('#mainVideo video')[0].src = video.src;
+			tile.click((e) ->
+				mainVideo = $('#mainVideo video')[0]
+				mainVideo.src = video.src;
+				mainVideo.muted = video.muted
+
 				$('#mainVideo').fadeIn('fast')
 				$('#mainVideo h2').html(location)
 			)
 
+			video.addEventListener('loadeddata', (=>
+				# @resize()
+			), false)
+			
+
 		removeVideo: (video) ->
-			tile = $(video.parentNode)
-			tile.empty()
-			tile.unbind("click")
-			@tiles.push(tile)
+			$tile = $(video.parentNode)
+			$tile.empty()
+			$tile.unbind("click")
+
+			$gridItem = $('.gridItem')
+			if($gridItem.length > @MIN_TILES)
+				$tile.remove()
+				@resize()
+				return
+
+			@vacantTiles.push($tile)
+

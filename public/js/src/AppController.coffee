@@ -14,7 +14,6 @@ define ['view/AppView', 'VideoController'], (AppView, VideoController) ->
 			@resize();
 
 		resize: (e) =>
-			w = window.innerWidth
-			h = window.innerHeight
+			@appView.resize()
 
 	return new AppController()

@@ -6,14 +6,18 @@
 
 
 (function() {
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
   define(['jquery', 'hogan', 'text!../../templates/alertbox.html', 'ServiceManager'], function($, Hogan, template, ServiceManager) {
     var AppView;
     return AppView = (function() {
       function AppView() {
+        this.addTile = __bind(this.addTile, this);
         this.buildGridView();
         this.buildAlertView();
         $('#mainVideo').click(function() {
-          return $('#mainVideo').fadeOut('fast');
+          $('#mainVideo').fadeOut('fast');
+          return $('#mainVideo video')[0].src = "";
         });
       }
 
@@ -41,59 +45,103 @@
       };
 
       AppView.prototype.buildGridView = function() {
-        var TILES_HORIZ, TILES_VERT, colorCount, colors, i, numTiles, ratio, screenHeight, screenWidth, tile, tileHeight, tileWidth, _i, _ref, _results;
-        colors = ['color1', 'color2', 'color3', 'color4', 'color5', 'color6', 'color7'];
-        this.tiles = [];
-        TILES_HORIZ = 5;
-        TILES_VERT = 3;
-        screenWidth = $(window).width();
-        screenHeight = $(window).height();
-        tileWidth = 100 / TILES_HORIZ;
-        tileHeight = (tileWidth * screenWidth) / screenHeight;
-        ratio = tileWidth / tileHeight;
-        numTiles = TILES_HORIZ * TILES_VERT;
-        colorCount = 0;
-        console.log(tileWidth + " : " + screenWidth + "-" + tileHeight + " : " + screenHeight);
+        var i, _i, _ref, _results;
+        this.vacantTiles = [];
+        this.colors = ['color1', 'color2', 'color3', 'color4', 'color5', 'color6', 'color7'];
+        this.colorCount = 0;
+        this.MIN_TILES = 8;
         _results = [];
-        for (i = _i = 0, _ref = numTiles - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
-          tile = $('<div></div>');
-          tile.addClass('gridItem' + ' ' + colors[colorCount]);
-          tile.css({
-            width: tileWidth + '%',
-            height: tileHeight + '%'
-          });
-          $('#remoteVideos').append(tile);
-          ++colorCount;
-          if (colorCount > colors.length - 1) {
-            colorCount = 0;
-          }
-          _results.push(this.tiles.push(tile));
+        for (i = _i = 0, _ref = this.MIN_TILES - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+          _results.push(this.addTile());
         }
         return _results;
       };
 
+      AppView.prototype.addTile = function() {
+        var tile;
+        tile = $('<div></div>');
+        tile.addClass('gridItem' + ' ' + this.colors[this.colorCount]);
+        $('#remoteVideos').append(tile);
+        this.colorCount++;
+        if (this.colorCount > this.colors.length - 1) {
+          this.colorCount = 0;
+        }
+        this.vacantTiles.push(tile);
+        this.resize();
+        return tile;
+      };
+
+      AppView.prototype.resize = function(w, h) {
+        var $gridItem, $video, $videoContainer, numTiles, screenHeight, screenWidth, tileHeight, tileWidth;
+        $gridItem = $('.gridItem');
+        $videoContainer = $('#remoteVideos');
+        $video = $('.gridItem video');
+        screenWidth = $(window).width();
+        screenHeight = $(window).height();
+        numTiles = $gridItem.length;
+        tileWidth = tileHeight = this.gridPack(screenWidth, screenHeight, numTiles);
+        $videoContainer.css({
+          width: (tileWidth * Math.floor(screenWidth / tileWidth)) + 'px'
+        });
+        return $gridItem.css({
+          width: tileWidth + 'px',
+          height: tileHeight + 'px'
+        });
+      };
+
+      AppView.prototype.gridPack = function(x, y, n) {
+        var px, py, sx, sy;
+        px = Math.ceil(Math.sqrt(n * x / y));
+        if (Math.floor(px * y / x) * px < n) {
+          sx = y / Math.ceil(px * y / x);
+        } else {
+          sx = x / px;
+        }
+        py = Math.ceil(Math.sqrt(n * y / x));
+        if (Math.floor(py * x / y) * py < n) {
+          sy = x / Math.ceil(x * py / y);
+        } else {
+          sy = y / py;
+        }
+        return Math.floor(Math.max(sx, sy));
+      };
+
       AppView.prototype.addVideo = function(video, location) {
-        var index, locEl, tile;
-        index = Math.floor(Math.random() * this.tiles.length);
-        tile = this.tiles.splice(index, 1)[0];
+        var index, locEl, tile,
+          _this = this;
+        if (this.vacantTiles.length === 0) {
+          this.addTile();
+        }
+        index = Math.floor(Math.random() * this.vacantTiles.length);
+        tile = this.vacantTiles.splice(index, 1)[0];
         locEl = $('<h2></h2>');
         locEl.addClass('locale');
         locEl.html(location);
         tile.append(video);
         tile.append(locEl);
-        return tile.click(function() {
-          $('#mainVideo video')[0].src = video.src;
+        tile.click(function(e) {
+          var mainVideo;
+          mainVideo = $('#mainVideo video')[0];
+          mainVideo.src = video.src;
+          mainVideo.muted = video.muted;
           $('#mainVideo').fadeIn('fast');
           return $('#mainVideo h2').html(location);
         });
+        return video.addEventListener('loadeddata', (function() {}), false);
       };
 
       AppView.prototype.removeVideo = function(video) {
-        var tile;
-        tile = $(video.parentNode);
-        tile.empty();
-        tile.unbind("click");
-        return this.tiles.push(tile);
+        var $gridItem, $tile;
+        $tile = $(video.parentNode);
+        $tile.empty();
+        $tile.unbind("click");
+        $gridItem = $('.gridItem');
+        if ($gridItem.length > this.MIN_TILES) {
+          $tile.remove();
+          this.resize();
+          return;
+        }
+        return this.vacantTiles.push($tile);
       };
 
       return AppView;
