@@ -23,7 +23,8 @@
             console.log("Video Stream Connected: " + id);
             return VideoController.addRemoteStream(stream, {
               id: id,
-              location: rtc.locations[id]
+              location: rtc.locations[id],
+              mute: false
             });
           });
           rtc.on('disconnect stream', function(id) {

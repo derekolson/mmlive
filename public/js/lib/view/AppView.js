@@ -124,6 +124,7 @@
           mainVideo = $('#mainVideo video')[0];
           mainVideo.src = video.src;
           mainVideo.muted = video.muted;
+          console.log(mainVideo.muted);
           $('#mainVideo').fadeIn('fast');
           return $('#mainVideo h2').html(location);
         });

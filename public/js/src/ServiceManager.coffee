@@ -21,7 +21,7 @@ define ['VideoController'], (VideoController) ->
 				# Add remote video streams as they connect
 				rtc.on('add remote stream', (stream, id) =>
 					console.log("Video Stream Connected: " + id)
-					VideoController.addRemoteStream(stream, {id: id, location: rtc.locations[id]})
+					VideoController.addRemoteStream(stream, {id: id, location: rtc.locations[id], mute: false})
 				)
 
 				# Remove remote streams as they disconnect

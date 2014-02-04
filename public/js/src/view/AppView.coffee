@@ -125,6 +125,7 @@ define ['jquery', 'hogan', 'text!../../templates/alertbox.html', 'ServiceManager
 				mainVideo = $('#mainVideo video')[0]
 				mainVideo.src = video.src;
 				mainVideo.muted = video.muted
+				console.log(mainVideo.muted)
 
 				$('#mainVideo').fadeIn('fast')
 				$('#mainVideo h2').html(location)

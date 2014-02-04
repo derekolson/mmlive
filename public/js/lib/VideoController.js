@@ -42,7 +42,7 @@
         rtc.attachStream(stream, video);
         $(video).attr("autoplay", "autoplay");
         if (options.mute) {
-          $(video).attr("muted", "muted");
+          video.muted = true;
         }
         this.remoteVideos.push(video);
         this.appView.addVideo(video, options.location);

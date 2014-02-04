@@ -27,9 +27,11 @@ define ['AppController'], (AppController) ->
 			video.id = 'video-' + options.id
 			rtc.attachStream(stream, video)
 			$(video).attr("autoplay", "autoplay")
+			# video.muted = false
 
 			if(options.mute)
-				$(video).attr("muted", "muted")
+				video.muted = true
+				# $(video).attr("muted", "muted")
 			
 			@remoteVideos.push(video)
 			@appView.addVideo(video, options.location);
